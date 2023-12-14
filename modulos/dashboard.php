@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="../assets/css/styles.css">
-
+t>
 <?php
 try {
     require_once './clases/MySQL.php';
@@ -18,76 +17,115 @@ try {
         function cargarUsuarios($consulta)
         {
 ?>
-            <div class="container">
-                <div class="row d-flex justify-content-between">
+            <!DOCTYPE html>
+            <html lang="en">
 
-                    <div class="col d-flex mt-3 justify-content-end">
-                        <form action="./cerrarsesion.php" method="post">
-                            <a href="./dashboard.php?datos=productos" class="btn btn-primary">Productos</a>
-                            <button type="submit" class="btn btn-danger">Cerrar sesión</button>
-                        </form>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" href="../assets/css/styles.css">
+
+                <title>Inicio</title>
+            </head>
+
+            <body>
+                <div class="sidebar" id="sidebar" style="height: 100%;">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="active" id="active" style="justify-content: center;">
+                                <div class="logoIMG">
+                                    <a href="dashboard.php"><img src="../assets/media/LOGO.png" alt="LOGO" srcset="../assets/media/LOGO.png" id="logoIMGCONT" style="width: 60px; height: 60px;"></a>
+                                </div>
+                                <div class="d-flex align-self-center logoMENU">
+                                    <img src="./assets/media/menu.png" alt="LOGO MENU" srcset="./assets/media/menu.png" id="logoMENU" style="width: 0px; height: 0px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-block" id="containerALIST">
+                            <div class="col"><a href="./dashboard.php">Inicio</a></div>
+                            <div class="col"><a href="./dashboard.php?datos=productos">Productos</a></div>
+                            <div class="col"><a href="./registrarProducto.php">Registrar producto</a></div>
+
+                            <div class="col">
+                                <a href="./cerrarsesion.php" class="cerrarSesion">Cerrar sesión</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <span style="visibility: hidden;">.</span>
+                    <div class="container contenido">
+                        <h1 class="text-center">Usuarios</h1>
+                        <div class="row d-flex justify-content-between">
+                            <div class="row">
+                                <table class="display dataTable" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Id
+                                            </th>
+                                            <th>
+                                                Usuario
+                                            </th>
+                                            <th>
+                                                Correo
+                                            </th>
+                                            <th>
+                                                Contraseña
+                                            </th>
+                                            <th>
+                                                Estado
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        while ($fila = mysqli_fetch_array($consulta)) {
+                                        ?>
+                                            <tr>
+                                                <td>
+                                                    <?php echo $fila[0]; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $fila[1]; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $fila[2]; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $fila[3]; ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($fila[4] == 1) {
+                                                        echo 'Activo';
+                                                    } else {
+                                                        echo 'Inactivo';
+                                                    } ?>
+                                                </td>
+                                                <td>
+                                                    <a href="editarusuario.php?id=<?php echo $fila[0] ?>&user=<?php echo $fila[1] ?>">✎</a>
+                                                </td>
+                                                <td><a href="eliminar.php?id_Usuario=<?php echo $fila[0] ?>">🗑</a></td>
+                                            </tr>
+
+                                        <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                <div class="row">
-                    <table class="table table-dark table-striped table-bordered ">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Id
-                                </th>
-                                <th>
-                                    Usuario
-                                </th>
-                                <th>
-                                    Correo
-                                </th>
-                                <th>
-                                    Contraseña
-                                </th>
-                                <th>
-                                    Estado
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            while ($fila = mysqli_fetch_array($consulta)) {
-                            ?>
-                                <tr>
-                                    <td>
-                                        <?php echo $fila[0]; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $fila[1]; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $fila[2]; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $fila[3]; ?>
-                                    </td>
-                                    <td>
-                                        <?php if ($fila[4] == 1) {
-                                            echo 'Activo';
-                                        } else {
-                                            echo 'Inactivo';
-                                        } ?>
-                                    </td>
-                                    <td>
-                                        <a href="editarusuario.php?id=<?php echo $fila[0] ?>&user=<?php echo $fila[1] ?>">✎</a>
-                                    </td>
-                                    <td><a href="eliminar.php?id_Usuario=<?php echo $fila[0] ?>">🗑</a></td>
-                                </tr>
 
-                            <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                <script src="../assets/js/main.js"></script>
+            </body>
 
-                </div>
-            </div>
+            </html>
+
         <?php //} 
             // else {
             //     header("Location: index.php");
@@ -97,94 +135,124 @@ try {
         function cargarProductos($consulta, $mysql)
         {
         ?>
-            <div class="container">
-                <div class="row d-flex justify-content-between">
-                    <div class="col d-flex mt-3 justify-content-start">
-                        <form>
-                            <a href="./registrarProducto.php" class="btn btn-primary">Registrar producto</a>
 
-                        </form>
-                    </div>
-                    <div class="col d-flex mt-3 justify-content-end">
-                        <form action="./cerrarsesion.php" method="post">
-                            <a href="./dashboard.php" class="btn btn-primary">Usuarios</a>
-                            <button type="submit" class="btn btn-danger">Cerrar sesión</button>
-                        </form>
+            <!DOCTYPE html>
+            <html lang="en">
+
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" href="../assets/css/styles.css">
+                <title>Inicio</title>
+            </head>
+
+            <body>
+
+                <div class="sidebar" id="sidebar" style="height: 100%;">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="active" id="active" style="justify-content: center;">
+                                <div class="logoIMG">
+                                    <a href="dashboard.php"><img src="../assets/media/LOGO.png" alt="LOGO" srcset="../assets/media/LOGO.png" id="logoIMGCONT" style="width: 60px; height: 60px;"></a>
+                                </div>
+                                <div class="d-flex align-self-center logoMENU">
+                                    <img src="../assets/media/LOGO.png" alt="LOGO MENU" srcset="../assets/media/LOGO.png" id="logoMENU" style="width: 0px; height: 0px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-block" id="containerALIST">
+                            <div class="col"><a href="./dashboard.php">Inicio</a></div>
+                            <div class="col"><a href="./dashboard.php?datos=productos">Productos</a></div>
+                            <div class="col"><a href="./registrarProducto.php">Registrar producto</a></div>
+
+                            <div class="col">
+                                <a href="./cerrarsesion.php" class="cerrarSesion">Cerrar sesión</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <table class="table table-dark table-striped table-bordered ">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Id
-                                </th>
-                                <th>
-                                    Nombre
-                                </th>
-                                <th>
-                                    Cantidad
-                                </th>
-                                <th>
-                                    Imagen
-                                </th>
-                                <th>
-                                    Estado
-                                </th>
-                                <th>
-                                    Usuario
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            while ($fila = mysqli_fetch_array($consulta)) {
-                            ?>
-                                <tr>
-                                    <td>
-                                        <?php echo $fila[0]; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $fila[1]; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $fila[2]; ?>
-                                    </td>
-                                    <td>
-                                        <img src="<?php echo $fila[3] ?>" alt="IMAGEN" srcset="<?php echo $fila[3] ?>" style="width:50px;height:50px">
-                                    </td>
-                                    <td>
-                                        <?php if ($fila[4] == 1) {
-                                            echo 'Activo';
-                                        } else {
-                                            echo 'Inactivo';
-                                        } ?>
-                                    </td>
-                                    <td>
-                                        <?php
-                                        $mysql->conectar();
-                                        $consultaUser = $mysql->efectuarConsulta("SELECT nombre_usuario FROM productos.usuarios where usuarios.id_usuario = $fila[5]");
-                                        $mysql->desconectar();
-                                        while ($fila1 = mysqli_fetch_array($consultaUser)) {
-                                            echo $fila1[0];
-                                        }
+                <div class="content">
+                    <span style="visibility: hidden;">.</span>
+                    <div class="container contenido">
+                        <h1 class="text-center">Productos</h1>
+                        <div class="row">
+                            <table class="display" style="width:100%" id="tableResponsive">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Id
+                                        </th>
+                                        <th>
+                                            Nombre
+                                        </th>
+                                        <th>
+                                            Cantidad
+                                        </th>
+                                        <th>
+                                            Imagen
+                                        </th>
+                                        <th>
+                                            Estado
+                                        </th>
+                                        <th>
+                                            Usuario
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    while ($fila = mysqli_fetch_array($consulta)) {
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $fila[0]; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $fila[1]; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $fila[2]; ?>
+                                            </td>
+                                            <td>
+                                                <img src="<?php echo $fila[3] ?>" alt="IMAGEN" srcset="<?php echo $fila[3] ?>" style="width:50px;height:50px">
+                                            </td>
+                                            <td>
+                                                <?php if ($fila[4] == 1) {
+                                                    echo 'Activo';
+                                                } else {
+                                                    echo 'Inactivo';
+                                                } ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                $mysql->conectar();
+                                                $consultaUser = $mysql->efectuarConsulta("SELECT nombre_usuario FROM productos.usuarios where usuarios.id_usuario = $fila[5]");
+                                                $mysql->desconectar();
+                                                while ($fila1 = mysqli_fetch_array($consultaUser)) {
+                                                    echo $fila1[0];
+                                                }
 
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <a href="editarproducto.php?id=<?php echo $fila[0] ?>&user=<?php echo $fila[1] ?>">✎</a>
-                                    </td>
-                                    <td><a href="eliminar.php?id_Producto=<?php echo $fila[0] ?>">🗑</a></td>
-                                </tr>
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a href="editarproducto.php?id=<?php echo $fila[0] ?>&user=<?php echo $fila[1] ?>">✎</a>
+                                            </td>
+                                            <td><a href="eliminar.php?id_Producto=<?php echo $fila[0] ?>">🗑</a></td>
+                                        </tr>
 
-                            <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <script src="../assets/js/main.js"></script>
+            </body>
+
+            </html>
     <?php
         }
         if (isset($_GET['datos'])) {
